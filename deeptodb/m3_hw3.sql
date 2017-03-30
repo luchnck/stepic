@@ -22,14 +22,17 @@ CREATE TABLE Venue(
 );
 CREATE TABLE PaperSubmission(
   id INTEGER PRIMARY KEY,
-  conference INTEGER,
+  conference TEXT,
   year INTEGER,
   title TEXT,
   isbn TEXT,
   page INTEGER,
   venue_id INTEGER,
   FOREIGN KEY(venue_id) references Venue(id),
-  FOREIGN KEY(conference) references Conference(name)
+  FOREIGN KEY(conference) references Conference(name),
+  CONSTRAINT paper_uniq UNIQUE(title,page),
+  CONSTRAINT conference_uniq UNIQUE(conference,isbn),
+  CONSTRAINT venue_uniq UNIQUE(title,year,venue_id)
 );
 
 INSERT INTO Conference(name, description) VALUES ('SIGMOD', 'The annual ACM SIGMOD/PODS conference is a leading international forum for database researchers, practitioners, developers, and users to explore cutting-edge ideas and results, and to exchange techniques, tools, and experiences');
