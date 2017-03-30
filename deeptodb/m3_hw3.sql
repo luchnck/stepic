@@ -5,8 +5,10 @@ DROP TABLE IF EXISTS Venue;
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE Conference(
-    name TEXT PRIMARY KEY,
-    description TEXT
+    id INTEGER PRIMARY KEY Autoincrement,
+    name TEXT,
+    description TEXT,
+    CONSTRAINT name_uniq UNIQUE(name)
 );
 CREATE TABLE Venue(
     id INTEGER PRIMARY KEY,
@@ -15,19 +17,20 @@ CREATE TABLE Venue(
     country TEXT,
     lat NUMERIC(7,5),
     lon NUMERIC(8,5),
-    CONSTRAINT name_uniq UNIQUE(name)
+    CONSTRAINT name_uniq UNIQUE(name),
+    CONSTRAINT geo_uniq UNIQUE(lat,lon)
 );
 CREATE TABLE PaperSubmission(
   id INTEGER PRIMARY KEY,
-  conference TEXT,
+  conference INTEGER,
   year INTEGER,
   title TEXT,
   isbn TEXT,
   page INTEGER,
   venue_id INTEGER,
   FOREIGN KEY(venue_id) references Venue(id),
-  FOREIGN KEY(conference) references Conference(name),
-  CONSTRAINT conference_uniq UNIQUE (conference,venue_id,year)
+  FOREIGN KEY(conference) references Conference(id),
+  CONSTRAINT conference_uniq UNIQUE (isbn)
 );
 
 INSERT INTO Conference(name, description) VALUES ('SIGMOD', 'The annual ACM SIGMOD/PODS conference is a leading international forum for database researchers, practitioners, developers, and users to explore cutting-edge ideas and results, and to exchange techniques, tools, and experiences');
