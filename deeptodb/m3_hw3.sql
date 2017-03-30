@@ -29,13 +29,11 @@ CREATE TABLE PaperSubmission(
   page INTEGER,
   venue_id INTEGER,
   FOREIGN KEY(venue_id) references Venue(id),
-  FOREIGN KEY(conference) references Conference(id),
-  CONSTRAINT conference_uniq UNIQUE (isbn)
+  FOREIGN KEY(conference) references Conference(name)
 );
 
 INSERT INTO Conference(name, description) VALUES ('SIGMOD', 'The annual ACM SIGMOD/PODS conference is a leading international forum for database researchers, practitioners, developers, and users to explore cutting-edge ideas and results, and to exchange techniques, tools, and experiences');
 INSERT INTO Conference(name, description) VALUES ('VLDB', 'VLDB is a premier annual international forum for data management and database researchers, vendors, practitioners, application developers, and users');
 INSERT INTO Venue(id, name, city, country, lat, lon) VALUES (1, 'Moscone Center', 'San Francisco', 'US', 37.78417, -122.40155);
 INSERT INTO Venue(id, name, city, country, lat, lon) VALUES (2, 'Davos Congress Centre', 'Davos', 'CH', 46.7939, 9.82091);
-INSERT INTO PaperSubmission(id, conference, year, title, isbn, page, venue_id) VALUES
-  (1, 'SIGMOD', 2016, 'Creating yellow squared submarines from iron', NULL, NULL, 1);
+INSERT INTO PaperSubmission(id, conference, year, title, isbn, page, venue_id) VALUES (1, 'SIGMOD', 2016, 'Creating yellow squared submarines from iron', NULL, NULL, 1);
