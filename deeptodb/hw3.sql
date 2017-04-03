@@ -1,0 +1,1 @@
+SELECT *  FROM Conference JOIN Participant ON (Conference.conference_id = Participant.conference_id) WHERE Participant.researcher_id NOT IN (SELECT researcher_id FROM Researcher JOIN University ON (Researcher.university_id = University.university_id) WHERE University.name='Uni1')
