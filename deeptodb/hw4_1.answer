@@ -1,0 +1,1 @@
+sqlite3 hw4_task1.db "SELECT C.name,CE.year,COUNT(SELECT id FROM Paper WHERE CE.id=P.event_id) TOTAL FROM ConferenceEvent CE JOIN Conference C ON (CE.conference_id = C.id)"
