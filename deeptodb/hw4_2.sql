@@ -1,10 +1,10 @@
 CREATE OR REPLACE FUNCTION SubmitReview(_paper_id INT, _reviewer_id INT, _score INT)                                                                
 RETURNS VOID AS $$                                                                                                                                  
 DECLARE                                                                                                                                             
-        n_paper_id integer;                                                                                                                        
-        n_reviewer_id integer;                                                                                                                  
+        n_paper_id Paper.id%TYPE;                                                                                                                        
+        n_reviewer_id Reviewer.id%TYPE;                                                                                                                  
         n_score_records integer;                                                                                                                    
-        t_paper_scores integer;                                                                                                        
+        t_paper_scores PaperReviewing.score%TYPE;                                                                                                        
         factor integer := 0;                                                                                                                        
         score integer := 0;                                                                                                                         
         cnt integer := 0;                                                                                                                           
@@ -19,14 +19,14 @@ BEGIN
         SELECT COUNT(*) INTO n_score_records FROM PaperReviewing PR WHERE PR.paper_id = n_paper_id AND PR.reviewer_id = n_rewiever_id;              
                                                                                                                                                     
         IF n_score_records > 0 THEN                                                                                                                 
-                UPDATE PaperReviewing SET paper_id=n_paper_id, reviewer_id=n_reviewer_id, score=_score WHERE paper_id = n_paper_id AND reviewer_id = n_rewiever_id;                                    
+                UPDATE PaperReviewing SET score=_score WHERE paper_id = n_paper_id AND reviewer_id = n_rewiever_id;                                    
         ELSE                                                                                                                                        
                 INSERT INTO PaperReviewing(paper_id, reviewer_id, score) VALUES (n_paper_id,n_reviewer_id,_score);                                  
-        END IF;                                                                                                                                     
+        END IF;
                                                                                                                                                     
-        SELECT score INTO t_paper_scores FROM PaperReviewing WHERE paper_id = n_paper_id AND reviewer_id = n_reviewer_id;                           
-                                                                                                                                                    
-        FOREACH score IN t_paper_scores LOOP                                                                                                        
+        FOR score IN 
+				SELECT score FROM PaperReviewing WHERE paper_id = n_paper_id AND reviewer_id = n_reviewer_id
+			LOOP                                                                                                        
                 factor := factor + score;                                                                                                           
                 cnt := cnt + 1;                                                                                                                     
         END LOOP;                                                                                                                                   
