@@ -19,7 +19,7 @@ BEGIN
         SELECT COUNT(*) INTO n_score_records FROM PaperReviewing PR WHERE PR.paper_id = n_paper_id AND PR.reviewer_id = n_rewiever_id;              
                                                                                                                                                     
         IF n_score_records > 0 THEN                                                                                                                 
-                UPDATE PaperReviewing SET paper_id, reviewer_id, score VALUES (n_paper_id,n_reviewer_id,_score);                                    
+                UPDATE PaperReviewing SET paper_id=n_paper_id, reviewer_id=n_reviewer_id, score=_score WHERE paper_id = n_paper_id AND reviewer_id = n_rewiever_id;                                    
         ELSE                                                                                                                                        
                 INSERT INTO PaperReviewing(paper_id, reviewer_id, score) VALUES (n_paper_id,n_reviewer_id,_score);                                  
         END IF;                                                                                                                                     
